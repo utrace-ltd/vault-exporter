@@ -24,6 +24,13 @@ Flags:
                           Address to listen on for web interface and telemetry.
       --web.telemetry-path="/metrics"  
                           Path under which to expose metrics.
+      --vault-tls-cacert=VAULT-TLS-CACERT  
+                          The path to a PEM-encoded CA cert file to use to verify the Vault server SSL certificate.
+      --vault-tls-client-cert=VAULT-TLS-CLIENT-CERT  
+                          The path to the certificate for Vault communication.
+      --vault-tls-client-key=VAULT-TLS-CLIENT-KEY  
+                          The path to the private key for Vault communication.
+      --insecure-ssl      Set SSL to ignore certificate validation.
       --log.level="info"  Only log messages with the given severity or above. Valid levels: [debug, info, warn, error, fatal]
       --log.format="logger:stderr"  
                           Set the log target and format. Example: "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true"
