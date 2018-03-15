@@ -12,6 +12,27 @@ import (
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
 
+var (
+	listenAddress = kingpin.Flag("web.listen-address",
+		"Address to listen on for web interface and telemetry.").
+		Default(":9410").String()
+	metricsPath = kingpin.Flag("web.telemetry-path",
+		"Path under which to expose metrics.").
+		Default("/metrics").String()
+	vaultCaCert = kingpin.Flag("vault-tls-cacert",
+		"The path to a PEM-encoded CA cert file to use to verify the Vault server SSL certificate.").
+		Envar("CONSUL_TLS_CACERT").String()
+	vaultClientCert = kingpin.Flag("vault-tls-client-cert",
+		"The path to the certificate for Vault communication.").
+		Envar("Vault_TLS_CLIENT_CERT").String()
+	vaultClientKey = kingpin.Flag("vault-tls-client-key",
+		"The path to the private key for Vault communication.").
+		Envar("VAULT_TLS_CLIENT_KEY").String()
+	sslInsecure = kingpin.Flag("insecure-ssl",
+		"Set SSL to ignore certificate validation.").
+			Default("false").Bool()
+)
+
 const (
 	namespace = "vault"
 )
@@ -48,11 +69,33 @@ var (
 // the Prometheus metrics package.
 type Exporter struct {
 	client *vault_api.Client
+	cfg *vault_api.Config
 }
+
 
 // NewExporter returns an initialized Exporter.
 func NewExporter() (*Exporter, error) {
-	client, err := vault_api.NewClient(vault_api.DefaultConfig())
+	vaultConfig := vault_api.DefaultConfig()
+
+	if *sslInsecure {
+		tlsconfig := &vault_api.TLSConfig{
+			Insecure:   true,
+		}
+		vaultConfig.ConfigureTLS(tlsconfig)
+	}
+
+	if *vaultCaCert != "" || *vaultClientCert != "" || *vaultClientKey != "" {
+
+			tlsconfig := &vault_api.TLSConfig{
+				CACert:     *vaultCaCert,
+				ClientCert: *vaultClientCert,
+				ClientKey:  *vaultClientKey,
+				Insecure:   *sslInsecure,
+			}
+			vaultConfig.ConfigureTLS(tlsconfig)
+	}
+
+	client, err := vault_api.NewClient(vaultConfig)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +130,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 		ch <- prometheus.MustNewConstMetric(
 			up, prometheus.GaugeValue, 0,
 		)
-		log.Errorf("Failted to collect health from Vault server: %v", err)
+		log.Errorf("Failed to collect health from Vault server: %v", err)
 		return
 	}
 
@@ -113,14 +156,6 @@ func init() {
 }
 
 func main() {
-	var (
-		listenAddress = kingpin.Flag("web.listen-address",
-			"Address to listen on for web interface and telemetry.").
-			Default(":9410").String()
-		metricsPath = kingpin.Flag("web.telemetry-path",
-			"Path under which to expose metrics.").
-			Default("/metrics").String()
-	)
 	log.AddFlags(kingpin.CommandLine)
 	kingpin.Version(version.Print("vault_exporter"))
 	kingpin.HelpFlag.Short('h')
