@@ -69,7 +69,6 @@ var (
 // the Prometheus metrics package.
 type Exporter struct {
 	client *vault_api.Client
-	cfg *vault_api.Config
 }
 
 
