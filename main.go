@@ -19,7 +19,7 @@ var (
 	metricsPath = kingpin.Flag("web.telemetry-path",
 		"Path under which to expose metrics.").
 		Default("/metrics").String()
-	vaultCaCert = kingpin.Flag("vault-tls-cacert",
+	vaultCACert = kingpin.Flag("vault-tls-cacert",
 		"The path to a PEM-encoded CA cert file to use to verify the Vault server SSL certificate.").String()
 	vaultClientCert = kingpin.Flag("vault-tls-client-cert",
 		"The path to the certificate for Vault communication.").String()
@@ -27,7 +27,7 @@ var (
 		"The path to the private key for Vault communication.").String()
 	sslInsecure = kingpin.Flag("insecure-ssl",
 		"Set SSL to ignore certificate validation.").
-			Default("false").Bool()
+		Default("false").Bool()
 )
 
 const (
@@ -80,10 +80,10 @@ func NewExporter() (*Exporter, error) {
 		vaultConfig.ConfigureTLS(tlsconfig)
 	}
 
-	if *vaultCaCert != "" || *vaultClientCert != "" || *vaultClientKey != "" {
+	if *vaultCACert != "" || *vaultClientCert != "" || *vaultClientKey != "" {
 
 			tlsconfig := &vault_api.TLSConfig{
-				CACert:     *vaultCaCert,
+				CACert:     *vaultCACert,
 				ClientCert: *vaultClientCert,
 				ClientKey:  *vaultClientKey,
 				Insecure:   *sslInsecure,
