@@ -12,6 +12,32 @@ Export [Hashicorp Vault](https://github.com/hashicorp/vault) health to [Promethe
 | vault_standby | Is this Vault node in standby. | |
 | vault_info | Various info about the Vault node. | version, cluster_name, cluster_id |
 
+## Dashboards and alerts
+
+Example dashboards and alerts for this exporter are included in the
+mixin directory, in the form of a jsonnet monitoring mixin.  They
+are designed to be combined with the [prometheus-ksonnet](https://github.com/kausalco/public/tree/master/prometheus-ksonnet) package.
+
+To install this mixin, use [ksonnet](https://ksonnet.io/):
+
+```sh
+$ ks registry add vault_exporter https://github.com/grapeshot/vault_exporter
+$ ks pkg install vault_exporter/vault-mixin
+```
+
+Then to use, in your `main.jsonnet` file:
+
+```js
+local prometheus = (import "prometheus-ksonnet/prometheus-ksonnet.libsonnet");
+local vault = (import "vault-mixin/mixin.libsonnet");
+
+prometheus + vault {
+  jobs+: {
+    vault: "<my vault namespace>/<my value name label>",
+  },
+}
+```
+
 ## Flags
 
 ```bash
