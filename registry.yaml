@@ -3,4 +3,4 @@ kind: ksonnet.io/registry
 libraries:
   vault-mixin:
     version: master
-    path: mixin
+    path: vault-mixin
