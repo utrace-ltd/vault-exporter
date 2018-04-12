@@ -14,6 +14,8 @@ Export [Hashicorp Vault](https://github.com/hashicorp/vault) health to [Promethe
 
 ## Dashboards and alerts
 
+<img align="right" width="192" height="200" src="dashboard.png">
+
 Example dashboards and alerts for this exporter are included in the
 mixin directory, in the form of a jsonnet monitoring mixin.  They
 are designed to be combined with the [prometheus-ksonnet](https://github.com/kausalco/public/tree/master/prometheus-ksonnet) package.
