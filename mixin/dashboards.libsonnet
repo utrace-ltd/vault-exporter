@@ -91,5 +91,20 @@ local panel_settings = {
           { yaxes: g.yaxes("ms") }
         )
       )
+      .addRow(
+        g.row("Etcd Backend")
+        .addPanel(
+          g.panel("QPS") +
+          g.queryPanel('sum(rate(vault_etcd_count{job="$job"}[1m])) by (instance)', "{{instance}}") +
+          g.stack
+        )
+        .addPanel(
+          g.panel("Latency") +
+          g.queryPanel('max(vault_etcd{job="$job", quantile="0.99"}) by (instance)', "99th Percentile {{instance}}") +
+          g.queryPanel('max(vault_etcd{job="$job", quantile="0.5"}) by (instance)', "50th Percentile {{instance}}") +
+          g.queryPanel('sum(rate(vault_etcd_sum{job="$job"}[5m])) by (instance) / sum(rate(vault_etcd_count{job="$job"}[5m])) by (instance)', "Average {{instance}}") +
+          { yaxes: g.yaxes("ms") }
+        )
+      )
   },
 }
