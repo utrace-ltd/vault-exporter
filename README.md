@@ -64,3 +64,18 @@ Flags:
                           Set the log target and format. Example: "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true"
       --version           Show application version.
 ```
+
+## Environment variables
+
+Note that environment variables can be overwritten by flags.
+
+* `VAULT_ADDR` – Sets the address of Vault in the client, The format of address should be "<Scheme>://<Host>:<Port>" (defaults to `https://127.0.0.1:8200`)
+* `VAULT_CACERT` – CACert is the path to a PEM-encoded CA cert file to use to verify the Vault server SSL certificate (defaults to empty)
+* `VAULT_CAPATH` – CAPath is the path to a directory of PEM-encoded CA cert files to verify the Vault server SSL certificate (defaults to empty)
+* `VAULT_CLIENT_CERT` – ClientCert is the path to the certificate for Vault communication (defaults to empty)
+* `VAULT_CLIENT_KEY` – ClientKey is the path to the private key for Vault communication (defaults to empty)
+* `VAULT_CLIENT_TIMEOUT` – Timeout is for setting custom timeout parameter in the Http-client (defaults to `0`)
+* `VAULT_SKIP_VERIFY` – SkipVerify enables or disables SSL verification (defaults to `false`)
+* `VAULT_TLS_SERVER_NAME` – TLSServerName, if set, is used to set the SNI host when connecting via TLS (defaults to empty)
+* `VAULT_MAX_RETRIES` – MaxRetries controls the maximum number of times to retry when a 5xx error occurs (defaults to `0`)
+* `VAULT_TOKEN` – Token is the access token used by client
