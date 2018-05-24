@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	_ "net/http/pprof"
+	"os"
 
 	vault_api "github.com/hashicorp/vault/api"
 	"github.com/prometheus/client_golang/prometheus"
@@ -151,6 +152,11 @@ func init() {
 }
 
 func main() {
+	if (len(os.Args) > 1) && (os.Args[1] == "version") {
+		version.Print("vault_exporter")
+		return
+	}
+
 	log.AddFlags(kingpin.CommandLine)
 	kingpin.Version(version.Print("vault_exporter"))
 	kingpin.HelpFlag.Short('h')
