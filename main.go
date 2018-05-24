@@ -68,27 +68,26 @@ type Exporter struct {
 	client *vault_api.Client
 }
 
-
 // NewExporter returns an initialized Exporter.
 func NewExporter() (*Exporter, error) {
 	vaultConfig := vault_api.DefaultConfig()
 
 	if *sslInsecure {
 		tlsconfig := &vault_api.TLSConfig{
-			Insecure:   true,
+			Insecure: true,
 		}
 		vaultConfig.ConfigureTLS(tlsconfig)
 	}
 
 	if *vaultCACert != "" || *vaultClientCert != "" || *vaultClientKey != "" {
 
-			tlsconfig := &vault_api.TLSConfig{
-				CACert:     *vaultCACert,
-				ClientCert: *vaultClientCert,
-				ClientKey:  *vaultClientKey,
-				Insecure:   *sslInsecure,
-			}
-			vaultConfig.ConfigureTLS(tlsconfig)
+		tlsconfig := &vault_api.TLSConfig{
+			CACert:     *vaultCACert,
+			ClientCert: *vaultClientCert,
+			ClientKey:  *vaultClientKey,
+			Insecure:   *sslInsecure,
+		}
+		vaultConfig.ConfigureTLS(tlsconfig)
 	}
 
 	client, err := vault_api.NewClient(vaultConfig)
