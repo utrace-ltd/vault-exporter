@@ -14,4 +14,3 @@ lint:
 
 update-vendor:
 	dep ensure
-	dep prune
