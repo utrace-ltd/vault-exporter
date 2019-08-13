@@ -16,6 +16,11 @@ jobs:
       - run:
           command: |
             ./architect build
+      - persist_to_workspace:
+          root: .
+          paths:
+          - ./vault-exporter
+
       - deploy:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
