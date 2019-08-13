@@ -1,0 +1,17 @@
+name: vault-exporter
+namespace: monitoring
+
+userID: 1000
+groupID: 1000
+
+vault:
+  address: https://example.com
+
+image:
+  registry: quay.io
+  image: vault-exporter
+  tag: v1.0.0
+
+registry:
+  pullSecret:
+    dockerConfigJSON:
