@@ -46,7 +46,7 @@ workflows:
             tags:
               only: /^v.*/
       - architect/push-to-app-catalog:
-          name: "package and push vault-exporter"
+          name: "push-vault-exporter-to-app-catalog"
           app_catalog: "giantswarm-operations-platform-catalog"
           app_catalog_test: "giantswarm-operations-platform-test-catalog"
           chart: "vault-exporter"
