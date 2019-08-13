@@ -25,6 +25,10 @@ jobs:
 workflows:
   package-and-push-chart-on-tag:
     jobs:
+      - build:
+          filters:
+            tags:
+              only: /^v.*/
       - architect/push-to-docker:
           name: push-vault-exporter-to-docker
           image: "quay.io/giantswarm/vault-exporter"
