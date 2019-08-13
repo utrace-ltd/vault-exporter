@@ -9,8 +9,8 @@ vault:
 
 image:
   registry: quay.io
-  image: vault-exporter
-  tag: v1.0.0
+  repository: vault-exporter
+  tag: 1.0.0
 
 registry:
   pullSecret:
