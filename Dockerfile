@@ -10,7 +10,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -a -installsuffix cgo -o 
 
 FROM scratch
 
-COPY --from=0 /go/bin/vault-exporter /usr/bin
+COPY --from=0 /go/bin/vault-exporter /usr/bin/
 
 #ENV APPLICATION_VERSION="$VERSION"
 #ENV APPLICATION_DEBUG="false"
